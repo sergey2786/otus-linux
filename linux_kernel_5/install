@@ -1,0 +1,9 @@
+1 yum update 
+2 cd /usr/src/
+3 curl -O https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.2.3.tar.xz
+4 tar -xvf linux-5.2.3.tar.xz -C /usr/src
+5 cd linux-5.2.3/
+5 yum groupinstall "Development Tools"
+6 yum install ncurses-devel openssl-devel bc
+7 make oldconfig && make && make install && make modules_install 
+
