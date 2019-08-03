@@ -6,4 +6,4 @@ cd linux-5.2.3/
 yum groupinstall "Development Tools"
 yum install ncurses-devel openssl-devel bc
 make oldconfig && make && make install && make modules_install 
-
+23342
