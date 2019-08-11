@@ -1,0 +1,32 @@
+NAME      MAJ:MIN RM  SIZE RO TYPE   MOUNTPOINT
+sda         8:0    0   40G  0 disk   
+└─sda1      8:1    0   40G  0 part   /
+sdb         8:16   0  250M  0 disk   
+└─md0       9:0    0  496M  0 raid10 
+  ├─md0p1 259:5    0   98M  0 md     
+  ├─md0p2 259:6    0   99M  0 md     
+  ├─md0p3 259:7    0  100M  0 md     
+  ├─md0p4 259:8    0   99M  0 md     
+  └─md0p5 259:9    0   98M  0 md     
+sdc         8:32   0    5G  0 disk   
+└─md0       9:0    0  496M  0 raid10 
+  ├─md0p1 259:5    0   98M  0 md     
+  ├─md0p2 259:6    0   99M  0 md     
+  ├─md0p3 259:7    0  100M  0 md     
+  ├─md0p4 259:8    0   99M  0 md     
+  └─md0p5 259:9    0   98M  0 md     
+sdd         8:48   0    5G  0 disk   
+└─md0       9:0    0  496M  0 raid10 
+  ├─md0p1 259:5    0   98M  0 md     
+  ├─md0p2 259:6    0   99M  0 md     
+  ├─md0p3 259:7    0  100M  0 md     
+  ├─md0p4 259:8    0   99M  0 md     
+  └─md0p5 259:9    0   98M  0 md     
+sde         8:64   0    5G  0 disk   
+└─md0       9:0    0  496M  0 raid10 
+  ├─md0p1 259:5    0   98M  0 md     
+  ├─md0p2 259:6    0   99M  0 md     
+  ├─md0p3 259:7    0  100M  0 md     
+  ├─md0p4 259:8    0   99M  0 md     
+  └─md0p5 259:9    0   98M  0 md     
+sdf         8:80   0    5G  0 disk   

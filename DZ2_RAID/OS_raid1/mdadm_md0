@@ -1,0 +1,26 @@
+/dev/md0:
+           Version : 1.2
+     Creation Time : Fri Aug  9 03:28:24 2019
+        Raid Level : raid1
+        Array Size : 41908224 (39.97 GiB 42.91 GB)
+     Used Dev Size : 41908224 (39.97 GiB 42.91 GB)
+      Raid Devices : 2
+     Total Devices : 2
+       Persistence : Superblock is persistent
+
+       Update Time : Fri Aug  9 05:19:04 2019
+             State : clean 
+    Active Devices : 2
+   Working Devices : 2
+    Failed Devices : 0
+     Spare Devices : 0
+
+Consistency Policy : resync
+
+              Name : otuslinux22:0  (local to host otuslinux22)
+              UUID : 6caf65ac:be97f156:1008e154:478a271d
+            Events : 465
+
+    Number   Major   Minor   RaidDevice State
+       2       8        1        0      active sync   /dev/sda1
+       1       8       17        1      active sync   /dev/sdb1

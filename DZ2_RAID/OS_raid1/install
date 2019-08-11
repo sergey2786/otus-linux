@@ -1,0 +1,22 @@
+sfdisk -d /dev/sda | sfdisk /dev/sdb -- копируем структуру диска
+fdisk -l -- проверяем все ли ок
+cfdisk /dev/sdb -- меняем тип на FD
+yum install mdadm -- ставим mdadm
+mdadm --create /dev/md0 -l 1 -n 2 missing /dev/sdb1 -- делаем raid 1
+mkfs.xfs /dev/md0 -- фарматируем в xfs
+mount /dev/md0 /mnt/ -- монтируем в /mnt систему
+rsync -axuv / /mnt/ -- копируем корень в mnt
+chroot /mnt/ --  подлючаемся к системе root-том
+blkid | grep /dev/md0 -- смотрим UUID рейда что бы вписать его в fstab
+mv /boot/initramfs-3.10.0-957.12.2.el7.x86_64.img /boot/initramfs-3.10.0-957.12.2.el7.x86_64.img1 -- переименовываем initramfs
+dracut /boot/initramfs-$(uname -r).img $(uname -r) -- создаем initramfs
+vi /etc/default/grub -- добавляем опцию ядру опцию rd.auto=1
+grub2-mkconfig -o /boot/grub2/grub.cfg && grub2-install /dev/sdb -- ствым grub 
+vi /etc/selinux/config -- отключаем SELINUX=disabled (ели не отлючить то залогинится не получится как по другому решить пока не знаю) 
+reboot -- Грузимся с md0
+cfdisk /dev/sda -- меняем тип на FD
+mdadm --manage /dev/md0 --add /dev/sda1 -- влючаем диск в рейд
+cat /proc/mdstat -- убеждаемся что рейд готов
+
+
+
