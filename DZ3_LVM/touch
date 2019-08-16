@@ -1,0 +1,38 @@
+total 0
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file1
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file10
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file11
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file12
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file13
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file14
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file15
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file16
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file17
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file18
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file19
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file2
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file20
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file21
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file22
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file23
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file24
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file25
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file26
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file27
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file28
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file29
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file3
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file30
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file31
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file32
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file33
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file34
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file4
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file5
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file6
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file7
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file8
+-rw-r--r--. 1 root    root     0 Aug 16 03:41 file9
+drwx------. 3 vagrant vagrant 95 Aug 15 17:23 vagrant
+[root@otuslinux vagrant]# 
+

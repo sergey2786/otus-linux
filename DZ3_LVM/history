@@ -1,0 +1,30 @@
+    1  lvremove /dev/vg_root/lv_roo
+    2  lvremove /dev/vg_root/lv_root
+    3  vgremove /dev/vg_root
+    4  pvremove /dev/sdb
+    5  lsblk
+    6  lvcreate -n LogVol_Home -L 2G /dev/VolGroup00
+    7  lsblk 
+    8  mkfs.xfs /dev/VolGroup00/LogVol_Home
+    9  mount /dev/VolGroup00/LogVol_Home /mnt/
+   10  cp -aR /home/* /mnt/ 
+   11  ls /mnt/
+   12  rm -rf /home/*
+   13  umount /mnt
+   14  mount /dev/VolGroup00/LogVol_Home /home/
+   15  lsblk
+   16  echo "`blkid | grep Home | awk '{print $2}'` /home xfs defaults 0 0" >> /etc/fstab
+   17  touch /home/file{1..25}
+   18  ll
+   19  ll /home/
+   20  lvcreate -L 100MB -s -n home_snap  /dev/VolGroup00/LogVol_Home
+   21  ll
+   22  lsblk 
+   23  rm -f /home/file{11..20}
+   24  ll /home/
+   25  umount /home
+   26  lvconvert --merge /dev/VolGroup00/home_snap
+   27  mount /home
+   28  ll
+   29  mc
+   30  history 
