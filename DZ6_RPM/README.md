@@ -1,0 +1,9 @@
+### Подключение репозитория
+#### Подключить репозиторий можно в файле otus.repo
+[otus]
+name=otus-linux
+baseurl=http://rpm.mahatak.su
+gpgcheck=0
+enable=1
+
+#### [Адрес репозитория](http://rpm.mahatak.su/)

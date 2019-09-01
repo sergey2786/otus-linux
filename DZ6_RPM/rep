@@ -1,0 +1,390 @@
+Script started on Sat 31 Aug 2019 06:44:50 PM UTC
+]0;root@centos7:~[?1034h[root@centos7 ~]# ll
+total 11408
+-rw-r--r--  1 root root 8864262 May 28 13:26 [0m[38;5;9mlatest.tar.gz[0m
+-rw-r--r--  1 root root 1033399 Nov  6  2018 [38;5;9mnginx-1.14.1-1.el7_4.ngx.src.rpm[0m
+drwxrwxr-x 19 root root    4096 Aug 31 18:41 [38;5;27mopenssl-1.1.1c[0m
+-rw-r--r--  1 root root       0 Aug 31 18:44 rep
+drwxr-xr-x  8 root root    4096 Aug 31 18:38 [38;5;27mrpmbuild[0m
+-rw-r--r--  1 root root 1769472 Aug 31 18:44 rpm_rep
+]0;root@centos7:~[root@centos7 ~]# systemctl start nginx
+]0;root@centos7:~[root@centos7 ~]# systemctl status nginx
+[1;32m●[0m nginx.service - nginx - high performance web server
+   Loaded: loaded (/usr/lib/systemd/system/nginx.service; disabled; vendor preset: disabled)
+   Active: [1;32mactive (running)[0m since Sat 2019-08-31 18:45:07 UTC; 8s ago
+     Docs: http://nginx.org/en/docs/
+  Process: 16985 ExecStart=/usr/sbin/nginx -c /etc/nginx/nginx.conf (code=exited, status=0/SUCCESS)
+ Main PID: 16986 (nginx)
+   CGroup: /system.slice/nginx.service
+           ├─16986 nginx: master process /usr/sbin/nginx -c /etc/nginx/nginx.conf
+           └─16987 nginx: worker process
+
+Aug 31 18:45:07 centos7.contaboserver.net systemd[1]: Starting nginx - high performance web server...
+Aug 31 18:45:07 centos7.contaboserver.net systemd[1]: Started nginx - high performance web server.
+]0;root@centos7:~[root@centos7 ~]# mkdir /usr/share/nginx/html/repo
+]0;root@centos7:~[root@centos7 ~]# cp rpmbuild/RPMS/x86_64/nginx-1.14.1-1.el7_4.ngx.x86_64.rpm /usr/share/nginx/html/repo/
+]0;root@centos7:~[root@centos7 ~]# wget http://www.percona.com/downloads/percona-release/redhat/0.1-6/percona-release-0.1-6.noarch.rpm -O /usr/share/nginx/html/repo /percona-release-0.1-6.noarch.rpm
+--2019-08-31 18:46:23--  http://www.percona.com/downloads/percona-release/redhat/0.1-6/percona-release-0.1-6.noarch.rpm
+Resolving www.percona.com (www.percona.com)... 74.121.199.234
+Connecting to www.percona.com (www.percona.com)|74.121.199.234|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://www.percona.com/downloads/percona-release/redhat/0.1-6/percona-release-0.1-6.noarch.rpm [following]
+--2019-08-31 18:46:23--  https://www.percona.com/downloads/percona-release/redhat/0.1-6/percona-release-0.1-6.noarch.rpm
+Connecting to www.percona.com (www.percona.com)|74.121.199.234|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 14520 (14K) [application/x-redhat-package-manager]
+Saving to: ‘/usr/share/nginx/html/repo/percona-release-0.1-6.noarch.rpm’
+
+ 0% [                                                                                                          ] 0           --.-K/s              100%[=========================================================================================================>] 14,520      --.-K/s   in 0.1s    
+
+2019-08-31 18:46:23 (144 KB/s) - ‘/usr/share/nginx/html/repo/percona-release-0.1-6.noarch.rpm’ saved [14520/14520]
+
+]0;root@centos7:~[root@centos7 ~]# createrepo /usr/share/nginx/html/repo/
+Spawning worker 0 with 1 pkgs
+Spawning worker 1 with 1 pkgs
+Spawning worker 2 with 0 pkgs
+Spawning worker 3 with 0 pkgs
+Workers Finished
+Saving Primary metadata
+Saving file lists metadata
+Saving other metadata
+Generating sqlite DBs
+Sqlite DBs complete
+]0;root@centos7:~[root@centos7 ~]#  /etc/nginx/conf.d/default.conf [1@v[1@i[1@m[C[1@ [1P
+bash: vim: command not found
+]0;root@centos7:~[root@centos7 ~]# yum v[Kinstall vim 
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.fra10.de.leaseweb.net
+ * extras: mirror.fra10.de.leaseweb.net
+ * updates: mirror.fra10.de.leaseweb.net
+Resolving Dependencies
+--> Running transaction check
+---> Package vim-enhanced.x86_64 2:7.4.160-6.el7_6 will be installed
+--> Processing Dependency: vim-common = 2:7.4.160-6.el7_6 for package: 2:vim-enhanced-7.4.160-6.el7_6.x86_64
+--> Processing Dependency: which for package: 2:vim-enhanced-7.4.160-6.el7_6.x86_64
+--> Processing Dependency: libgpm.so.2()(64bit) for package: 2:vim-enhanced-7.4.160-6.el7_6.x86_64
+--> Running transaction check
+---> Package gpm-libs.x86_64 0:1.20.7-5.el7 will be installed
+---> Package vim-common.x86_64 2:7.4.160-6.el7_6 will be installed
+--> Processing Dependency: vim-filesystem for package: 2:vim-common-7.4.160-6.el7_6.x86_64
+---> Package which.x86_64 0:2.20-7.el7 will be installed
+--> Running transaction check
+---> Package vim-filesystem.x86_64 2:7.4.160-6.el7_6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+===================================================================================================================================================
+ Package                               Arch                          Version                                  Repository                      Size
+===================================================================================================================================================
+Installing:
+ vim-enhanced                          x86_64                        2:7.4.160-6.el7_6                        updates                        1.0 M
+Installing for dependencies:
+ gpm-libs                              x86_64                        1.20.7-5.el7                             base                            32 k
+ vim-common                            x86_64                        2:7.4.160-6.el7_6                        updates                        5.9 M
+ vim-filesystem                        x86_64                        2:7.4.160-6.el7_6                        updates                         10 k
+ which                                 x86_64                        2.20-7.el7                               base                            41 k
+
+Transaction Summary
+===================================================================================================================================================
+Install  1 Package (+4 Dependent packages)
+
+Total download size: 7.0 M
+Installed size: 23 M
+Is this ok [y/d/N]: y
+Downloading packages:
+(1/5): gpm-libs-1.20.7-5.el7.x86_64.rpm                                                                                     |  32 kB  00:00:00     
+(2/5): vim-enhanced-7.4.160-6.el7_6.x86_64.rpm                                                                              | 1.0 MB  00:00:00     
+(3/5): vim-filesystem-7.4.160-6.el7_6.x86_64.rpm                                                                            |  10 kB  00:00:00     
+(4/5): which-2.20-7.el7.x86_64.rpm                                                                                          |  41 kB  00:00:00     
+(5/5): vim-common-7.4.160-6.el7_6.x86_64.rpm               98% [================================================ ]  0.0 B/s | 6.9 MB  --:--:-- ETA (5/5): vim-common-7.4.160-6.el7_6.x86_64.rpm                                                                                | 5.9 MB  00:00:00     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                               15 MB/s | 7.0 MB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : gpm-libs-1.20.7-5.el7.x86_64 [                                                                                                ] 1/5  Installing : gpm-libs-1.20.7-5.el7.x86_64 [############################################################################################### ] 1/5  Installing : gpm-libs-1.20.7-5.el7.x86_64                                                                                                    1/5 
+  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [                                                                                     ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [##                                                                                   ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#####                                                                                ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#######                                                                              ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [##########                                                                           ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#############                                                                        ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [################                                                                     ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [##################                                                                   ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [######################                                                               ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [########################                                                             ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [###########################                                                          ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [##############################                                                       ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#################################                                                    ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [###################################                                                  ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#######################################                                              ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#########################################                                            ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [############################################                                         ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [##############################################                                       ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [##################################################                                   ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [####################################################                                 ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#######################################################                              ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#########################################################                            ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [############################################################                         ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [##############################################################                       ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [##################################################################                   ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [####################################################################                 ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#######################################################################              ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [#########################################################################            ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [############################################################################         ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [###############################################################################      ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64 [##################################################################################   ] 2/5  Installing : 2:vim-filesystem-7.4.160-6.el7_6.x86_64                                                                                         2/5 
+  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [                                                                                         ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#                                                                                        ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##                                                                                       ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###                                                                                      ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [####                                                                                     ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#####                                                                                    ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [######                                                                                   ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#######                                                                                  ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [########                                                                                 ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#########                                                                                ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##########                                                                               ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###########                                                                              ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [############                                                                             ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#############                                                                            ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##############                                                                           ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###############                                                                          ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [################                                                                         ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#################                                                                        ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##################                                                                       ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###################                                                                      ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [####################                                                                     ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#####################                                                                    ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [######################                                                                   ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#######################                                                                  ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [########################                                                                 ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#########################                                                                ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##########################                                                               ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###########################                                                              ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [############################                                                             ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#############################                                                            ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##############################                                                           ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###############################                                                          ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [################################                                                         ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#################################                                                        ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##################################                                                       ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###################################                                                      ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [####################################                                                     ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#####################################                                                    ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [######################################                                                   ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#######################################                                                  ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [########################################                                                 ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#########################################                                                ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##########################################                                               ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###########################################                                              ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [############################################                                             ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#############################################                                            ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##############################################                                           ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###############################################                                          ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [################################################                                         ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#################################################                                        ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##################################################                                       ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###################################################                                      ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [####################################################                                     ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#####################################################                                    ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [######################################################                                   ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#######################################################                                  ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [########################################################                                 ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#########################################################                                ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##########################################################                               ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###########################################################                              ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [############################################################                             ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#############################################################                            ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##############################################################                           ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###############################################################                          ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [################################################################                         ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#################################################################                        ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##################################################################                       ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###################################################################                      ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [####################################################################                     ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#####################################################################                    ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [######################################################################                   ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#######################################################################                  ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [########################################################################                 ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#########################################################################                ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##########################################################################               ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###########################################################################              ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [############################################################################             ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#############################################################################            ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##############################################################################           ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###############################################################################          ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [################################################################################         ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#################################################################################        ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [##################################################################################       ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [###################################################################################      ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [####################################################################################     ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#####################################################################################    ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [######################################################################################   ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [#######################################################################################  ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64 [######################################################################################## ] 3/5  Installing : 2:vim-common-7.4.160-6.el7_6.x86_64                                                                                             3/5 
+  Installing : which-2.20-7.el7.x86_64 [                                                                                                     ] 4/5  Installing : which-2.20-7.el7.x86_64 [###############################                                                                      ] 4/5  Installing : which-2.20-7.el7.x86_64 [################################                                                                     ] 4/5  Installing : which-2.20-7.el7.x86_64 [#############################################################################                        ] 4/5  Installing : which-2.20-7.el7.x86_64 [##################################################################################                   ] 4/5  Installing : which-2.20-7.el7.x86_64 [########################################################################################             ] 4/5  Installing : which-2.20-7.el7.x86_64 [##############################################################################################       ] 4/5  Installing : which-2.20-7.el7.x86_64 [#################################################################################################    ] 4/5  Installing : which-2.20-7.el7.x86_64 [###################################################################################################  ] 4/5  Installing : which-2.20-7.el7.x86_64                                                                                                         4/5 
+  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [                                                                                       ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#                                                                                      ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [####                                                                                   ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [######                                                                                 ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#########                                                                              ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [############                                                                           ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [##############                                                                         ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#################                                                                      ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [###################                                                                    ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#####################                                                                  ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [########################                                                               ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [##########################                                                             ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#############################                                                          ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [################################                                                       ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#################################                                                      ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [####################################                                                   ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#######################################                                                ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#########################################                                              ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [############################################                                           ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [##############################################                                         ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#################################################                                      ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [###################################################                                    ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#####################################################                                  ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [########################################################                               ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [###########################################################                            ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#############################################################                          ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [################################################################                       ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [##################################################################                     ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [####################################################################                   ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#######################################################################                ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#########################################################################              ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [############################################################################           ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [###############################################################################        ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [#################################################################################      ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [####################################################################################   ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64 [###################################################################################### ] 5/5  Installing : 2:vim-enhanced-7.4.160-6.el7_6.x86_64                                                                                           5/5 
+  Verifying  : 2:vim-enhanced-7.4.160-6.el7_6.x86_64                                                                                           1/5 
+  Verifying  : which-2.20-7.el7.x86_64                                                                                                         2/5 
+  Verifying  : 2:vim-filesystem-7.4.160-6.el7_6.x86_64                                                                                         3/5 
+  Verifying  : gpm-libs-1.20.7-5.el7.x86_64                                                                                                    4/5 
+  Verifying  : 2:vim-common-7.4.160-6.el7_6.x86_64                                                                                             5/5 
+
+Installed:
+  vim-enhanced.x86_64 2:7.4.160-6.el7_6                                                                                                            
+
+Dependency Installed:
+  gpm-libs.x86_64 0:1.20.7-5.el7    vim-common.x86_64 2:7.4.160-6.el7_6    vim-filesystem.x86_64 2:7.4.160-6.el7_6    which.x86_64 0:2.20-7.el7   
+
+Complete!
+]0;root@centos7:~[root@centos7 ~]# yum install vim [19@vim /etc/nginx/conf.d/default.conf[C
+[?1049h[?1h=[2;1H▽[6n[1;1H  [1;1H[1;39r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[39;1H"/etc/nginx/conf.d/default.conf" 45L, 1093C[>c[1;1Hserver {
+    listen[7C80;
+    server_name  localhost;[5;5H#charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;[8;5Hlocation / {[9;9Hroot   /usr/share/nginx/html;[10;9Hindex  index.html index.htm;
+    }[13;5H#error_page  404[14C/404.html;[15;5H# redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {[19;9Hroot   /usr/share/nginx/html;
+    }[22;5H# proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}[28;5H# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    #location ~ \.php$ {
+    #    root[11Chtml;
+    #    fastcgi_pass   127.0.0.1:9000;
+    #    fastcgi_index  index.php;
+    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+    #    include[8Cfastcgi_params;
+    #}[38;5H# deny access to .htaccess files, if Apache's document root[39;130H1,1[11CTop[1;1H[?12l[?25hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[?25l[39;1H[K[39;1H/[?12l[?25hi[?25l[?12l[?25hn[?25l[?12l[?25hd[?25l[?12l[?25he[?25l[?12l[?25hx[?25l[?12l[?25h[?25l[10;9H[103mindex[m  [103mindex[m.html [103mindex[33;18Hindex[m  [103mindex[m[39;130H10,9[10CTop[10;9H[?12l[?25h[?25l[8;16H[106m{[11;5H}[m[39;131H1,5[11;5H[?12l[?25h[?25l[8;16H{[11;5H}[39;131H2,0-1[12;1H[?12l[?25h[?25l[39;131H3,9  [13;9H[?12l[?25h[?25l[39;131H2,0-1[12;1H[?12l[?25h[?25l[39;131H3,9  [13;9H[?12l[?25h[?25l[39;131H4,0-1[14;1H[?12l[?25h[?25l[39;131H5,9  [15;9H[?12l[?25h[?25l[39;131H4,0-1[14;1H[?12l[?25h[?25l[39;131H3,9  [13;9H[?12l[?25h[?25l[39;131H2,0-1[12;1H[?12l[?25h[?25l[8;16H[106m{[11;5H}[m[39;131H1,5  [11;5H[?12l[?25h[?25l[39;1H[1m-- INSERT --[m[39;130H[K[39;130H11,5[10CTop[11;5H[?12l[?25h[?25l[8;16H{[11;5H}[39;131H2,1[12;1H[?12l[?25h[?25l[8;16H[106m{[11;5H}[m[39;131H1,5[11;5H[?12l[?25h[?25l[12;38r[12;1H[L[1;39r[11;5H[K[12;1H[106m}[m[39;130H[K[39;130H12,1[10CTop[12;1H[?12l[?25h[?25l [7C[106m}[m[39;133H2-9[12;9H[?12l[?25h[?25l[106m}[m[12;9H[K[39;133H1  [12;1H[?12l[?25h[?25l [106m}[m[39;133H2[12;2H[?12l[?25h[?25l [106m}[m[39;133H3[12;3H[?12l[?25h[?25l [106m}[m[39;133H4[12;4H[?12l[?25h[?25l [106m}[m[39;133H5[12;5H[?12l[?25h[?25l[8;16H{[12;5H}[39;131H1[11;5H[?12l[?25h[?25l[39;133H6[11;6H[?12l[?25h[?25l[39;133H7[11;7H[?12l[?25h[?25l[39;133H8[11;8H[?12l[?25h[?25l[39;133H9[11;9H[?12l[?25h[?25l[39;133H10[11;10H[?12l[?25h[?25l[39;133H9 [11;9H[?12l[?25h[?25la[39;133H10[11;10H[?12l[?25h[?25lu[39;134H1[11;11H[?12l[?25h[?25lt[39;134H2[11;12H[?12l[?25h[?25li[39;134H3[11;13H[?12l[?25h[?25l[11;12H[K[39;134H2[11;12H[?12l[?25h[?25lo[39;134H3[11;13H[?12l[?25h[?25li[39;134H4[11;14H[?12l[?25h[?25ln[39;134H5[11;15H[?12l[?25h[?25ld[39;134H6[11;16H[?12l[?25h[?25le[39;134H7[11;17H[?12l[?25h[?25l[103mindex[m[39;134H8[11;18H[?12l[?25h[?25l[39;134H9[11;19H[?12l[?25h[?25lo[39;133H20[11;20H[?12l[?25h[?25ln[39;134H1[11;21H[?12l[?25h[?25l;[39;134H2[11;22H[?12l[?25h[39;1H[K[11;21H[?25l[39;130H11,21[9CTop[11;21H[?12l[?25h[?25l[39;130H[K[39;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h[?25l"/etc/nginx/conf.d/default.conf" 46L, 1115C written
+[?1l>[?12l[?25h[?1049l]0;root@centos7:~[root@centos7 ~]# nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+]0;root@centos7:~[root@centos7 ~]# nginx 0[K-s reload
+]0;root@centos7:~[root@centos7 ~]# ip addr 
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+8: eth0@if9: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether fe:57:6d:40:a9:dd brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 10.0.3.242/24 brd 10.0.3.255 scope global dynamic eth0
+       valid_lft 2200sec preferred_lft 2200sec
+    inet6 fe80::fc57:6dff:fe40:a9dd/64 scope link 
+       valid_lft forever preferred_lft forever
+]0;root@centos7:~[root@centos7 ~]# vi[K[Kip addr nginx -s reloadt[Kvim /etc/nginx/conf.d/default.conf [K
+[?1049h[?1h=[2;1H▽[6n[1;1H  [1;1H[1;39r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[39;1H"/etc/nginx/conf.d/default.conf" 46L, 1115C[>c[1;1Hserver {
+    listen[7C80;
+    server_name  localhost;[5;5H#charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;[8;5Hlocation / {[9;9Hroot   /usr/share/nginx/html;[10;9H[103mindex[m  [103mindex[m.html [103mindex[m.htm;[11;9Hauto[103mindex[m on;
+    }[14;5H#error_page  404[14C/404.html;[16;5H# redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {[20;9Hroot   /usr/share/nginx/html;
+    }[23;5H# proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}[29;5H# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    #location ~ \.php$ {
+    #    root[11Chtml;
+    #    fastcgi_pass   127.0.0.1:9000;
+    #    fastcgi_[103mindex[m  [103mindex[m.php;
+    #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+    #    include[8Cfastcgi_params;
+    #}[39;130H11,9[10CTop[11;9H[?12l[?25hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[?25l[39;133H10[11;10H[?12l[?25h[?25l[39;134H1[11;11H[?12l[?25h[?25l[39;134H2[11;12H[?12l[?25h[?25l[39;134H3[11;13H[?12l[?25h[?25l[8;16H[106m{[12;5H}[m[39;131H2,5 [12;5H[?12l[?25h[?25l[8;16H{[12;5H}[39;131H3,0-1[13;1H[?12l[?25h[?25l[39;131H4,13 [14;13H[?12l[?25h[?25l[39;131H5,0-1[15;1H[?12l[?25h[?25l[39;131H6,13 [16;13H[?12l[?25h[?25l[39;131H7,5 [17;5H[?12l[?25h[?25l[39;131H8,13[18;13H[?12l[?25h[?25l[39;131H9[19;13H[?12l[?25h[?25l[39;130H20[20;13H[?12l[?25h[?25l[19;26H[106m{[21;5H}[m[39;131H1,5 [21;5H[?12l[?25h[?25l[19;26H{[21;5H}[39;131H2,0-1[22;1H[?12l[?25h[?25l[39;131H3,13 [23;13H[?12l[?25h[?25l[39;131H4,5 [24;5H[?12l[?25h[?25l[39;131H5,13[25;13H[?12l[?25h[?25l[39;131H6[26;13H[?12l[?25h[?25l[25;24H[106m{[27;6H}[m[39;131H7,6 [27;6H[?12l[?25h[?25l[25;24H{[27;6H}[39;131H8,0-1[28;1H[?12l[?25h[?25l[39;131H9,13 [29;13H[?12l[?25h[?25l[39;130H30,5 [30;5H[?12l[?25h[?25l[39;131H1,13[31;13H[?12l[?25h[?25l[39;131H2[32;13H[?12l[?25h[?25l[39;131H3[33;13H[?12l[?25h[?25l[39;131H4[34;13H[?12l[?25h[?25l[39;131H5[35;13H[?12l[?25h[?25l[39;131H6[36;13H[?12l[?25h[?25l[31;24H[106m{[37;6H}[m[39;131H7,6 [37;6H[?12l[?25h[?25l[31;24H{[37;6H}[39;131H8,0-1[38;1H[?12l[?25h[?25l[1;38r[38;1H
+[1;39r[38;5H# deny access to .htaccess files, if Apache's document root[39;1H[K[39;130H39,13[9C12%[38;13H[?12l[?25h[?25l[1;38r[38;1H
+[1;39r[38;5H# concurs with nginx's one[39;130H[K[39;130H40,13[9C25%[38;13H[?12l[?25h[?25l[1;38r[38;1H
+[1;39r[38;5H#[39;130H[K[39;130H41,5[10C37%[38;5H[?12l[?25h[?25l[1;38r[38;1H
+[1;39r[38;5H#location ~ /\.ht {[39;130H[K[39;130H42,13[9C50%[38;13H[?12l[?25h[?25l[1;38r[38;1H
+[1;39r[38;5H#    deny  all;[39;130H[K[39;130H43,13[9C62%[38;13H[?12l[?25h[?25l[1;38r[38;1H
+[1;39r[36;23H[106m{[m[38;5H#[106m}[m[39;130H[K[39;130H44,6[10C75%[38;6H[?12l[?25h[?25l[1;38r[38;1H
+[1;39r[35;23H{[37;6H}
+}[39;130H[K[39;130H45,1[10C87%[38;1H[?12l[?25h[?25l[1;38r[38;1H
+[1;39r[39;130H[K[39;130H46,0-1[8CBot[38;1H[?12l[?25h[?25l[39;131H5,1  [37;1H[?12l[?25h[?25l[34;23H[106m{[36;6H}[m[39;131H4,6[36;6H[?12l[?25h[?25l[34;23H{[36;6H}[39;131H3,13[35;13H[?12l[?25h[?25l[39;131H2[34;13H[?12l[?25h[?25l[39;131H1,5 [33;5H[?12l[?25h[?25l[39;131H0,13[32;13H[?12l[?25h[?25l[39;130H39[31;13H[?12l[?25h[?25l[39;131H8,0-1[30;1H[?12l[?25h[?25l[23;24H[106m{[29;6H}[m[39;131H7,6  [29;6H[?12l[?25h[?25l[23;24H{[29;6H}[39;131H6,13[28;13H[?12l[?25h[?25l[39;131H5[27;13H[?12l[?25h[?25l[39;131H4[26;13H[?12l[?25h[?25l[39;131H3[25;13H[?12l[?25h[?25l[39;131H2[24;13H[?12l[?25h[?25l[39;131H1[23;13H[?12l[?25h[?25l[39;131H0,5 [22;5H[?12l[?25h[?25l[39;130H29,13[21;13H[?12l[?25h[?25l[39;131H8,0-1[20;1H[?12l[?25h[?25l[17;24H[106m{[19;6H}[m[39;131H7,6  [19;6H[?12l[?25h[?25l[17;24H{[19;6H}[39;131H6,13[18;13H[?12l[?25h[?25l[39;131H5[17;13H[?12l[?25h[?25l[39;131H4,5 [16;5H[?12l[?25h[?25l[39;131H3,13[15;13H[?12l[?25h[?25l[39;131H2,0-1[14;1H[?12l[?25h[?25l[11;26H[106m{[13;5H}[m[39;131H1,5  [13;5H[?12l[?25h[?25l[11;26H{[13;5H}[39;131H0,13[12;13H[?12l[?25h[?25l[39;130H19[11;13H[?12l[?25h[?25l[39;131H8[10;13H[?12l[?25h[?25l[39;131H7,5 [9;5H[?12l[?25h[?25l[39;131H6,13[8;13H[?12l[?25h[?25l[39;131H5,0-1[7;1H[?12l[?25h[?25l[39;131H4,13 [6;13H[?12l[?25h[?25l[39;131H3,0-1[5;1H[?12l[?25h[?25l[39;131H2,5  [4;5H[?12l[?25h[?25l[39;131H1,13[3;13H[?12l[?25h[?25l[39;131H0[2;13H[?12l[?25h[?25l[39;130H9,13 [1;13H[?12l[?25h[?25l[1;38r[1;1H[L[1;39r[1;5Hlocation / {[39;130H[K[39;130H8,13[10C87%[1;13H[?12l[?25h[?25l[1;38r[1;1H[L[1;39r[39;130H[K[39;130H7,0-1[9C75%[1;1H[?12l[?25h[?25l[1;38r[1;1H[L[1;39r[1;5H#access_log  /var/log/nginx/host.access.log  main;[39;130H[K[39;130H6,13[10C62%[1;13H[?12l[?25h[?25l[1;38r[1;1H[L[1;39r[1;5H#charset koi8-r;[39;130H[K[39;130H5,13[10C50%[1;13H[?12l[?25h[?25l[1;38r[1;1H[L[1;39r[39;130H[K[39;130H4,0-1[9C37%[1;1H[?12l[?25h[?25l[1;38r[1;1H[L[1;39r[1;5Hserver_name  localhost;[39;130H[K[39;130H3,13[10C25%[1;13H[?12l[?25h[?25l[1;38r[1;1H[L[1;39r[1;5Hlisten[7C80;[39;130H[K[39;130H2,13[10C12%[1;13H[?12l[?25h[?25l[1;38r[1;1H[L[1;39r[1;1Hserver {[39;130H[K[39;130H1,8[11CTop[1;8H[?12l[?25h[?25l[39;130H2,13[2;13H[?12l[?25h[?25l[39;130H3[3;13H[?12l[?25h[?25l[39;130H4,0-1[4;1H[?12l[?25h[?25l[39;130H5,13 [5;13H[?12l[?25h[?25l[39;130H6[6;13H[?12l[?25h[?25l[39;130H7,0-1[7;1H[?12l[?25h[?25l[39;130H8,13 [8;13H[?12l[?25h[?25l[39;130H9[9;13H[?12l[?25h[?25l[39;130H10,13[10;13H[?12l[?25h[?25l[39;131H1[11;13H[?12l[?25h[?25l[39;134H4[11;14H[?12l[?25h[?25l[39;134H5[11;15H[?12l[?25h[?25l[39;134H6[11;16H[?12l[?25h[?25l[39;134H7[11;17H[?12l[?25h[?25l[39;134H8[11;18H[?12l[?25h[?25l[39;134H9[11;19H[?12l[?25h[?25l[39;133H20[11;20H[?12l[?25h[?25l[39;134H1[11;21H[?12l[?25h[?25l[39;1H[1m-- INSERT --[m[39;130H[K[39;130H11,21[9CTop[11;21H[?12l[?25h[?25l[39;134H2[11;22H[?12l[?25h[?25l[12;38r[12;1H[L[1;39r[39;130H[K[39;130H12,1[10CTop[12;1H[?12l[?25h[?25l[39;133H2-9[12;9H[?12l[?25h[?25lauto[103mindex[m on;[39;133H15-22[12;22H[?12l[?25h[?25l[39;131H1,22   [11;22H[?12l[?25h[?25l[11;21H[K[39;134H1[11;21H[?12l[?25h[?25l[11;20H[K[39;134H0[11;20H[?12l[?25h[?25l[11;19H[K[39;133H19[11;19H[?12l[?25h[?25l[39;134H8[11;18H[?12l[?25h[?25linde[11;17H[K[39;134H7[11;17H[?12l[?25h[?25l[11;16H[K[39;134H6[11;16H[?12l[?25h[?25l[11;15H[K[39;134H5[11;15H[?12l[?25h[?25l[11;14H[K[39;134H4[11;14H[?12l[?25h[?25l[11;13H[K[39;134H3[11;13H[?12l[?25h[?25l[11;12H[K[39;134H2[11;12H[?12l[?25h[?25l[11;11H[K[39;134H1[11;11H[?12l[?25h[?25l[11;10H[K[39;134H0[11;10H[?12l[?25h[?25l[11;9H[K[39;133H9 [11;9H[?12l[?25h[?25l[39;133H8[11;8H[?12l[?25h[?25l[39;133H7[11;7H[?12l[?25h[?25l[39;133H6[11;6H[?12l[?25h[?25l[39;133H5[11;5H[?12l[?25h[?25l[39;133H4[11;4H[?12l[?25h[?25l[39;133H3[11;3H[?12l[?25h[?25l[39;133H2[11;2H[?12l[?25h[?25l[39;133H1[11;1H[?12l[?25h[?25l[10;38r[38;1H
+[1;39r[10;9H[103mindex[m  [103mindex[m.html [103mindex[m.htm;[39;130H[K[39;130H10,37[9CTop[10;37H[?12l[?25h[39;1H[K[10;36H[?25l[39;130H10,36[9CTop[10;36H[?12l[?25h[?25l[39;130H[K[39;1H:[?12l[?25hw[?25l[?12l[?25hq[?25l[?12l[?25h[?25l"/etc/nginx/conf.d/default.conf" 46L, 1108C written
+[?1l>[?12l[?25h[?1049l]0;root@centos7:~[root@centos7 ~]# vim /etc/nginx/conf.d/default.conf[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cip addr [Knginx -s reload
+]0;root@centos7:~[root@centos7 ~]# sus[K[Kystemctl restart nginx
+]0;root@centos7:~[root@centos7 ~]# linx http://localhost/repo
+bash: linx: command not found
+]0;root@centos7:~[root@centos7 ~]# linx http://localhost/repo[C[C[1P[1@y
+bash: lynx: command not found
+]0;root@centos7:~[root@centos7 ~]# yum install lynx
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.fra10.de.leaseweb.net
+ * extras: mirror.fra10.de.leaseweb.net
+ * updates: mirror.fra10.de.leaseweb.net
+Resolving Dependencies
+--> Running transaction check
+---> Package lynx.x86_64 0:2.8.8-0.3.dev15.el7 will be installed
+--> Processing Dependency: redhat-indexhtml for package: lynx-2.8.8-0.3.dev15.el7.x86_64
+--> Running transaction check
+---> Package centos-indexhtml.noarch 0:7-9.el7.centos will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+===================================================================================================================================================
+ Package                                Arch                         Version                                      Repository                  Size
+===================================================================================================================================================
+Installing:
+ lynx                                   x86_64                       2.8.8-0.3.dev15.el7                          base                       1.4 M
+Installing for dependencies:
+ centos-indexhtml                       noarch                       7-9.el7.centos                               base                        92 k
+
+Transaction Summary
+===================================================================================================================================================
+Install  1 Package (+1 Dependent package)
+
+Total download size: 1.5 M
+Installed size: 5.4 M
+Is this ok [y/d/N]: y
+Downloading packages:
+(1/2): centos-indexhtml-7-9.el7.centos.noarch.rpm                                                                           |  92 kB  00:00:00     
+(2/2): lynx-2.8.8-0.3.dev15.el7.x86_64.rpm                                                                                  | 1.4 MB  00:00:00     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                                              7.4 MB/s | 1.5 MB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : centos-indexhtml-7-9.el7.centos.noarch [                                                                                      ] 1/2  Installing : centos-indexhtml-7-9.el7.centos.noarch [###                                                                                   ] 1/2  Installing : centos-indexhtml-7-9.el7.centos.noarch [##############################################################                        ] 1/2  Installing : centos-indexhtml-7-9.el7.centos.noarch [###############################################################################       ] 1/2  Installing : centos-indexhtml-7-9.el7.centos.noarch [################################################################################      ] 1/2  Installing : centos-indexhtml-7-9.el7.centos.noarch [##################################################################################### ] 1/2  Installing : centos-indexhtml-7-9.el7.centos.noarch                                                                                          1/2 
+  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [                                                                                             ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#                                                                                            ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###                                                                                          ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [####                                                                                         ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#####                                                                                        ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [######                                                                                       ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#######                                                                                      ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [########                                                                                     ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#########                                                                                    ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###########                                                                                  ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [############                                                                                 ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#############                                                                                ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##############                                                                               ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###############                                                                              ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#################                                                                            ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##################                                                                           ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###################                                                                          ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [####################                                                                         ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#####################                                                                        ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [######################                                                                       ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [########################                                                                     ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#########################                                                                    ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##########################                                                                   ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###########################                                                                  ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [############################                                                                 ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#############################                                                                ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##############################                                                               ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###############################                                                              ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [################################                                                             ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#################################                                                            ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##################################                                                           ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###################################                                                          ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [####################################                                                         ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#####################################                                                        ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [######################################                                                       ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#######################################                                                      ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [########################################                                                     ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#########################################                                                    ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##########################################                                                   ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###########################################                                                  ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [############################################                                                 ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#############################################                                                ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##############################################                                               ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###############################################                                              ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [################################################                                             ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#################################################                                            ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##################################################                                           ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###################################################                                          ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#####################################################                                        ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [######################################################                                       ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#######################################################                                      ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [########################################################                                     ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#########################################################                                    ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##########################################################                                   ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [############################################################                                 ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#############################################################                                ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##############################################################                               ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###############################################################                              ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [################################################################                             ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#################################################################                            ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##################################################################                           ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###################################################################                          ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [####################################################################                         ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#####################################################################                        ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#######################################################################                      ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [########################################################################                     ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#########################################################################                    ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##########################################################################                   ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###########################################################################                  ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#############################################################################                ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##############################################################################               ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###############################################################################              ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [################################################################################             ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#################################################################################            ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##################################################################################           ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###################################################################################          ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [####################################################################################         ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#####################################################################################        ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#######################################################################################      ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [########################################################################################     ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [#########################################################################################    ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [##########################################################################################   ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [###########################################################################################  ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64 [############################################################################################ ] 2/2  Installing : lynx-2.8.8-0.3.dev15.el7.x86_64                                                                                                 2/2 
+  Verifying  : lynx-2.8.8-0.3.dev15.el7.x86_64                                                                                                 1/2 
+  Verifying  : centos-indexhtml-7-9.el7.centos.noarch                                                                                          2/2 
+
+Installed:
+  lynx.x86_64 0:2.8.8-0.3.dev15.el7                                                                                                                
+
+Dependency Installed:
+  centos-indexhtml.noarch 0:7-9.el7.centos                                                                                                         
+
+Complete!
+]0;root@centos7:~[root@centos7 ~]# yum install lynxlynx http://localhost/repo
+[?1049h[1;39r(B[m[4l[?7h[?1h=[39;49m[39;49m[97m[40m(B[m[39;49m[97m[40m[H[2J[37m[40m[J(B[m[39;49m[97m[40m[37d[93m[44mGetting http://localhost/repo[K(B[m[39;49m[97m[40m[93m[44mLooking up localhost[K(B[m[39;49m[97m[40m[93m[44mMaking HTTP connection to localhost(B[m[39;49m[97m[40m[93m[44mSending HTTP request.[K(B[m[39;49m[97m[40m[93m[44mHTTP request sent; waiting for response.(B[m[39;49m[97m[40m[5G[93m[44m/1.1 301 Moved Permanently[K(B[m[39;49m[97m[40m[93m[44mData transfer complete[K(B[m[39;49m[97m[40m[93m[44mHTTP/1.1 301 Moved Permanently(B[m[39;49m[97m[40m[93m[44mUsing http://localhost/repo/[K(B[m[39;49m[97m[40m[93m[44mGetting http://localhost/repo/(B[m[39;49m[97m[40m[93m[44mLooking up localhost[K(B[m[39;49m[97m[40m[93m[44mMaking HTTP connection to localhost(B[m[39;49m[97m[40m[93m[44mSending HTTP request.[K(B[m[39;49m[97m[40m[93m[44mHTTP request sent; waiting for response.(B[m[39;49m[97m[40m[5G[93m[44m/1.1 200 OK[K(B[m[39;49m[97m[40m[93m[44mData transfer complete(B[m[39;49m[97m[40m[1;133H[35m[40mIndex of /repo/[2;67H[93m[44mIndex of /repo/
+[6G[93m[40m_____________________________________________________________________________________________________________________________________
+
+[32m[40m../
+repodata/[6;52H[37m[40m31-Aug-2019 18:46[6;88H-
+[32m[40mnginx-1.14.1-1.el7_4.ngx.x86_64.rpm[7;52H[37m[40m31-Aug-2019 18:46[7;82H2000920
+[32m[40mpercona-release-0.1-6.noarch.rpm[8;52H[37m[40m13-Jun-2018 06:34[8;84H14520
+[6G[93m[40m_____________________________________________________________________________________________________________________________________[36d(B[m[39;49m[97m[40m
+
+[3G[37m[40mArrow keys: Up and Down to move.  Right to follow a link; Left to go back.
+ H)elp O)ptions P)rint G)o M)ain screen Q)uit /=search [delete]=history list (B[m[39;49m[97m[40m[37d[93m[44mCommands: Use arrow keys to move, '?' for help, 'q' to quit, '<-' to go back.(B[m[39;49m[97m[40m[5d[93m[40m../[39;147H(B[m[39;49m[97m[40m[5d[32m[40m../[39;78H(B[m[39;49m[97m[40m[37d[6d[93m[40mrepodata/[39;147H(B[m[39;49m[97m[40m[37d[93m[44mGetting http://localhost/repo/repodata/[K(B[m[39;49m[97m[40m[93m[44mLooking up localhost[K(B[m[39;49m[97m[40m[93m[44mMaking HTTP connection to localhost(B[m[39;49m[97m[40m[93m[44mSending HTTP request.[K(B[m[39;49m[97m[40m[93m[44mHTTP request sent; waiting for response.(B[m[39;49m[97m[40m[5G[93m[44m/1.1 200 OK[K(B[m[39;49m[97m[40m[93m[44mData transfer complete(B[m[39;49m[97m[40m[H(B[0;7m[37m[40m←←←[1;124H(B[0m[35m[40mIndex of /repo/repodata[2;62H[93m[44mIndex of /repo	data/
+
+
+
+[32m[40m64333549cebb8901a8c98329d82f253a614c2c01608c48e..>[6;85H[37m[40m1779
+[32m[40m75456046f3feed4c133153c5e286458e5f3dfafeecdee97..>[7;82H[37m[40m   1423
+[32m[40m7fa6960dc21676774034e87fa163abd8be06718b3d6b1e6..>[37m[40m 31-Aug-2019 18:46[8;84H  722
+[32m[40mb1ce44d0e4c2233428b93033f0e82ae7ac5d51bce7cae22..>[37m[40m 31-Aug-2019 18:46[16X[9;85H3334[K
+[32m[40mdf8ba383c1770a19fe86a44e660162c01e8cb43ffb7930a..>[37m[40m 31-Aug-2019 18:46[10;85H1394
+[32m[40mff058c2b63ed17efe9cd4e8789406317fc0a9cbc301eaaa..>[37m[40m 31-Aug-2019 18:46[11;86H708
+[32m[40mrepomd.xml[12;52H[37m[40m31-Aug-2019 18:46[12;85H2968
+[6G[93m[40m_____________________________________________________________________________________________________________________________________[36d(B[m[39;49m[97m[40m[39;78H[37d[93m[44mCommands: Use arrow keys to move, '?' for help, 'q' to quit, '<-' to go back.(B[m[39;49m[97m[40m[5d[93m[40m../[39;147H(B[m[39;49m[97m[40m[37d[93m[44mGetting http://localhost/repo/[K(B[m[39;49m[97m[40m[1;124H[37m[40m         [35m[40mIndex of /repo[2;66H[37m[40m[1K [93m[44mIndex of 	/[37m[40m[K
+
+
+[32m[40m../
+repodata/[37m[40m[41X[6;85H   -
+[32m[40mnginx-1.14.1-1.el7_4.ngx.x86_64.rpm[37m[40m[15X[7;82H2000920
+[32m[40mpercona-release-0.1-6.noarch.rpm[37m[40m[19X[8;52H13-Jun-2018 06:34[8;84H14520
+[5G[1K [93m[40m_____________________________________________________________________________________________________________________________________
+[37m[40m[K
+[K
+[K
+[K[36d(B[m[39;49m[97m[40m[39;78H[37d[93m[44mCommands: Use arrow keys to move, '?' for help, 'q' to quit, '<-' to go back.(B[m[39;49m[97m[40m[5d[93m[40m../[39;147H(B[m[39;49m[97m[40m[5d[32m[40m../[39;78H(B[m[39;49m[97m[40m[37d[6d[93m[40mrepodata/[39;147H(B[m[39;49m[97m[40m[37d[93m[44mGetting http://localhost/repo/repodata/[K(B[m[39;49m[97m[40m[1;124H[35m[40mIndex of /repo/repodata[2;62H[93m[44mIndex of /repo	data/
+
+
+
+[32m[40m64333549cebb8901a8c98329d82f253a614c2c01608c48e..>[6;85H[37m[40m1779
+[32m[40m75456046f3feed4c133153c5e286458e5f3dfafeecdee97..>[7;82H[37m[40m   1423
+[32m[40m7fa6960dc21676774034e87fa163abd8be06718b3d6b1e6..>[37m[40m 31-Aug-2019 18:46[8;84H  722
+[32m[40mb1ce44d0e4c2233428b93033f0e82ae7ac5d51bce7cae22..>[37m[40m 31-Aug-2019 18:46[16X[9;85H3334[K
+[32m[40mdf8ba383c1770a19fe86a44e660162c01e8cb43ffb7930a..>[37m[40m 31-Aug-2019 18:46[10;85H1394
+[32m[40mff058c2b63ed17efe9cd4e8789406317fc0a9cbc301eaaa..>[37m[40m 31-Aug-2019 18:46[11;86H708
+[32m[40mrepomd.xml[12;52H[37m[40m31-Aug-2019 18:46[12;85H2968
+[6G[93m[40m_____________________________________________________________________________________________________________________________________[36d(B[m[39;49m[97m[40m[39;78H[37d[93m[44mCommands: Use arrow keys to move, '?' for help, 'q' to quit, '<-' to go back.(B[m[39;49m[97m[40m[5d[93m[40m../[39;147H(B[m[39;49m[97m[40m[37d[93m[44mGetting http://localhost/repo/[K(B[m[39;49m[97m[40m[1;124H[37m[40m         [35m[40mIndex of /repo[2;66H[37m[40m[1K [93m[44mIndex of 	/[37m[40m[K
+
+
+[32m[40m../
+repodata/[37m[40m[41X[6;85H   -
+[32m[40mnginx-1.14.1-1.el7_4.ngx.x86_64.rpm[37m[40m[15X[7;82H2000920
+[32m[40mpercona-release-0.1-6.noarch.rpm[37m[40m[19X[8;52H13-Jun-2018 06:34[8;84H14520
+[5G[1K [93m[40m_____________________________________________________________________________________________________________________________________
+[37m[40m[K
+[K
+[K
+[K[36d(B[m[39;49m[97m[40m[39;78H[37d[93m[44mCommands: Use arrow keys to move, '?' for help, 'q' to quit, '<-' to go back.(B[m[39;49m[97m[40m[5d[93m[40m../[39;147H(B[m[39;49m[97m[40m[37d[93m[44mAre you sure you want to quit? (y)[K (B[m[39;49m[97m[40m
+
+[37m[40m[J(B[m[39;49m[97m[40m[39;49m[K[39;1H[?1049l[?1l>]0;root@centos7:~[root@centos7 ~]# curl -a http://localhost/repo
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body bgcolor="white">
+<center><h1>301 Moved Permanently</h1></center>
+<hr><center>nginx/1.14.1</center>
+</body>
+</html>
+]0;root@centos7:~[root@centos7 ~]# ll
+total 11544
+-rw-r--r--  1 root root 8864262 May 28 13:26 [0m[38;5;9mlatest.tar.gz[0m
+-rw-r--r--  1 root root 1033399 Nov  6  2018 [38;5;9mnginx-1.14.1-1.el7_4.ngx.src.rpm[0m
+drwxrwxr-x 19 root root    4096 Aug 31 18:41 [38;5;27mopenssl-1.1.1c[0m
+-rw-r--r--  1 root root   69632 Aug 31 18:58 rep
+drwxr-xr-x  8 root root    4096 Aug 31 18:38 [38;5;27mrpmbuild[0m
+-rw-r--r--  1 root root 1839104 Aug 31 18:58 rpm_rep
+]0;root@centos7:~[root@centos7 ~]# ll -h
+total 12M
+-rw-r--r--  1 root root  8.5M May 28 13:26 [0m[38;5;9mlatest.tar.gz[0m
+-rw-r--r--  1 root root 1010K Nov  6  2018 [38;5;9mnginx-1.14.1-1.el7_4.ngx.src.rpm[0m
+drwxrwxr-x 19 root root  4.0K Aug 31 18:41 [38;5;27mopenssl-1.1.1c[0m
+-rw-r--r--  1 root root   68K Aug 31 18:58 rep
+drwxr-xr-x  8 root root  4.0K Aug 31 18:38 [38;5;27mrpmbuild[0m
+-rw-r--r--  1 root root  1.8M Aug 31 18:58 rpm_rep
+]0;root@centos7:~[root@centos7 ~]# cay[Kt >> /etc/yum.repos.d/otus.repo << EOF
+> {}[K[K{[K{}[K[K[]o]t]u]s][C
+> name=otus-linux
+> baseurl=http://lo[K[Kкзь[K[K[Krpm.mak[Kf[Khatac[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Khttp://localhost/repo
+> gpgcheck=2[K0
+> enable=1
+> EOF
+]0;root@centos7:~[root@centos7 ~]# yum repolist enabled | grep otus
+[01;31m[Kotus[m[K                                [01;31m[Kotus[m[K-linux                                 2
+]0;root@centos7:~[root@centos7 ~]# yum list | grep otus
+percona-release.noarch                   0.1-6                          [01;31m[Kotus[m[K    
+]0;root@centos7:~[root@centos7 ~]# yum list | grep otus*
+baekmuk-ttf-d[01;31m[Kotu[m[Km-fonts.noarch           2.2-36.el7                     base    
+percona-release.noarch                   0.1-6                          [01;31m[Kotus[m[K    
+]0;root@centos7:~[root@centos7 ~]# yum install percona-release -y
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.fra10.de.leaseweb.net
+ * extras: mirror.fra10.de.leaseweb.net
+ * updates: mirror.fra10.de.leaseweb.net
+Resolving Dependencies
+--> Running transaction check
+---> Package percona-release.noarch 0:0.1-6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+===================================================================================================================================================
+ Package                                   Arch                             Version                           Repository                      Size
+===================================================================================================================================================
+Installing:
+ percona-release                           noarch                           0.1-6                             otus                            14 k
+
+Transaction Summary
+===================================================================================================================================================
+Install  1 Package
+
+Total download size: 14 k
+Installed size: 16 k
+Downloading packages:
+percona-release-0.1-6.noarch.rpm                                                                                            |  14 kB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : percona-release-0.1-6.noarch [                                                                                                ] 1/1  Installing : percona-release-0.1-6.noarch [##########################                                                                      ] 1/1  Installing : percona-release-0.1-6.noarch [#######################################                                                         ] 1/1  Installing : percona-release-0.1-6.noarch [#####################################################                                           ] 1/1  Installing : percona-release-0.1-6.noarch [######################################################                                          ] 1/1  Installing : percona-release-0.1-6.noarch [##################################################################################              ] 1/1  Installing : percona-release-0.1-6.noarch [############################################################################################### ] 1/1  Installing : percona-release-0.1-6.noarch                                                                                                    1/1 
+  Verifying  : percona-release-0.1-6.noarch                                                                                                    1/1 
+
+Installed:
+  percona-release.noarch 0:0.1-6                                                                                                                   
+
+Complete!
+]0;root@centos7:~[root@centos7 ~]# v[Kexit
+
+Script done on Sat 31 Aug 2019 07:09:18 PM UTC
