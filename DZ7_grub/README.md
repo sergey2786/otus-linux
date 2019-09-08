@@ -38,6 +38,6 @@
     1. mkdir /usr/lib/dracut/modules.d/01test - Создаем папку 01test
     2. создаем два файлы module-setup.sh и test.sh 
     3. mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r) && dracut -f -v - пересобираем initrd
-    4 Добавлем параметры загрузки в grub.cfg
+    4. Добавлем параметры загрузки в grub.cfg
 ##### Результат на скриншоте tux.png
 
