@@ -1,4 +1,4 @@
-[Uit]
+[Unit]
 Description=My watchlog service
 
 [Service]

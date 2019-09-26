@@ -47,17 +47,22 @@ Vagrant.configure("2") do |config|
                      end
                   end
           end
- 	  box.vm.provision "shell", inline: <<-SHELL
+ 	  config.vm.provision "file", source: "files.tar.xz", destination: "/home/vagrant/"
+    config.vm.provision "file", source: "mkdir.sh", destination: "/home/vagrant/"
+    box.vm.provision "shell", inline: <<-SHELL
 	      sudo su
           mkdir -p ~root/.ssh
           cp ~vagrant/.ssh/auth* ~root/.ssh 
+          sed -i s/^SELINUX=.*$/SELINUX=permissive/ /etc/selinux/config
+          setenforce 0
           yum update -y
           yum install epel-release -y
-          yum install vim mc -y
-          yum install epel-release -y && yum install spawn-fcgi php php-cli mod_fcgid httpd -y         
-      SHELL
-
+          yum install vim mc wget -y
+          yum install epel-release -y && yum install spawn-fcgi php php-cli mod_fcgid httpd -y
+          wget https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-software-8.4.1-x64.bin
+          chmod +x atlassian-jira-software-8.4.1-x64.bin
+          SHELL
+        end
       end
   end
-end
 
