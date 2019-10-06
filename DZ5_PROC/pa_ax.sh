@@ -1,4 +1,5 @@
 #!/bin/bash
+echo -e "PID\tSTAT\tCOMMAND"
 for i in $(ls -d /proc/[0-9]* | sort -V);
   do
      PID="$(basename $i)"
