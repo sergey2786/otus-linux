@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
             #vb.customize ['createhd', '--filename', second_disk, '--format', 'VDI', '--size', 5 * 1024]
             #vb.customize ['storageattach', :id, '--storagectl', 'IDE', '--port', 0, '--device', 1, '--type', 'hdd', '--medium', second_disk]
           end
-          config.vm.provision "file", source: "scripts1.tar.xz", destination: "/home/vagrant/scripts1.tar.xz"
+          config.vm.provision "file", source: "scripts1.tar.xz", destination: "/home/vagrant/"
           box.vm.provision "shell", inline: <<-SHELL
             sed -i '65s/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
             mkdir -p ~root/.ssh; cp ~vagrant/.ssh/auth* ~root/.ssh
