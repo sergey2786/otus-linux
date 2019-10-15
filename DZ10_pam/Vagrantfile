@@ -26,13 +26,25 @@ Vagrant.configure("2") do |config|
             #vb.customize ['createhd', '--filename', second_disk, '--format', 'VDI', '--size', 5 * 1024]
             #vb.customize ['storageattach', :id, '--storagectl', 'IDE', '--port', 0, '--device', 1, '--type', 'hdd', '--medium', second_disk]
           end
-          config.vm.provision "file", source: "scripts1.tar.xz", destination: "/home/vagrant/"
+          config.vm.provision "file", source: "test_login.sh", destination: "/home/vagrant/"
           box.vm.provision "shell", inline: <<-SHELL
             sed -i '65s/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
             mkdir -p ~root/.ssh; cp ~vagrant/.ssh/auth* ~root/.ssh
             systemctl restart sshd
+            sudo sudo setenforce 0
             echo "1234" | passwd root --stdin
-            yum install vim nmap-ncat pam_script -y
+            chmod +x test_login.sh
+            cp /home/vagrant/test_login.sh /usr/local/bin/
+            sudo useradd day &&  sudo useradd test
+            echo "2019"|sudo passwd --stdin day && echo "2019" | sudo passwd --stdin test
+            sudo groupadd admin && sudo gpasswd -M day,test admin
+            cd /etc/security
+            echo -e '*;*;test;!Tu' >> time.conf
+            cd /etc/pam.d/
+            sed -i "2i account required  pam_exec.so /usr/local/bin/test_login.sh" sshd
+            sed -i "2i account  required  pam_time.so " sshd 
+            echo -e "day        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers.d/day  
+            yum install vim mc -y
           SHELL
       end
   end

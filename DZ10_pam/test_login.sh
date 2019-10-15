@@ -8,5 +8,5 @@ if [[ `grep $PAM_USER  /etc/group | grep 'admin'` ]]; then
     exit 1
    fi
    else
-    exit 1
+    exit 0
  fi
