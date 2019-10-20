@@ -21,3 +21,6 @@
 		e19e2a9b60b2        postgres:latest                        "docker-entrypoint.s…"   2 hours ago         Up 2 hours               5432/tcp                                                                           postgres-server
 
 ##### Скриншоты zabbix.png и grafana.png
+##### Zabbix ставил по официальной документации https://www.zabbix.com/documentation/4.0/ru/manual/installation/containers
+##### prometheus - grafana ставил по этой инструкции https://github.com/stefanprodan/dockprom
+##### Lxc уже были на хостинге (ставил раньше)
