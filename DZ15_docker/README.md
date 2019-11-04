@@ -1,7 +1,7 @@
 ### DZ15_docker 
    1. Создайте свой кастомный образ nginx на базе alpine. После запуска nginx должен отдавать кастомную страницу (достаточно изменить дефолтную страницу nginx):
         * Контейнер можно собрать из папки nginx_alpine (docker build -t). 
-        * Так же готовый образ можно загрузить так ```docker push sergey2786/nginx_alpine:tagname```. Запустить можно будет docker run -d -p 1234:80 sergey2786/nginx_alpine:tagname. Проверить можно так ```curl localhost:1234```
+        * Так же готовый образ можно загрузить так ```docker push sergey2786/nginx_alpine:tagname```. Запустить можно будет ```docker run -d -p 1234:80 sergey2786/nginx_alpine:tagname```. Проверить можно так ```curl localhost:1234```
    2. Определите разницу между контейнером и образом
         * Образ это один процесс например nginx (docker images).
         * Контейнер складывается из образов (docker ps). 
@@ -15,6 +15,4 @@
          curl localhost:8080
          ```
 #### Работа проводилась на Archlinux. Docker устанавливался так:
-		```
-		yay -S docker docker-compose 
-		```
+	      yay -S docker docker-compose 
