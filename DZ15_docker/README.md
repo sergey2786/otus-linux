@@ -10,5 +10,7 @@
    4. Создайте кастомные образы nginx и php, объедините их в docker-compose.
         * Заходим в папку где находится docker-compose.yml запускаем:
          
-         <code>docker-compose up -d
-         curl localhost:8080</code>
+         ```
+         docker-compose up -d
+         curl localhost:8080
+         ```
