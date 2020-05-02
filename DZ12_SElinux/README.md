@@ -2,20 +2,20 @@
 
 #### Запустить nginx на нестандартном порту 3-мя разными способами:
 
-	1. Переключатели setsebool; 
+1. Переключатели setsebool; 
 	
 	  Запускаем nginx (перед этим сменив его порт в файле /etc/nginx/nginx.conf) получаем ошибку.
 	  Решение:
 	  Смотрим в audit.log (grep "AVC" /var/log/audit/audit.log). В логе видим что, так как порт не стандартный то на запуск нет разрешения. Из лога берем вот это значение msg=audit(1587925794.610:1940).
 	  Дальше с помощью утилиты audit2why (grep 1587925794.610:1940 /var/log/audit/audit.log | audit2why) смотрим какой переключатель отключить (setsebool -P nis_enabled 1) 
 
-	2. Добавление нестандартного порта в имеющийся тип;  
+2. Добавление нестандартного порта в имеющийся тип;  
 	   
 	   Решение представлено на стенде который можно с клонировать из репозитория (Стенда расположен в папке SElinux_nginx). 
 	   В стенде используется парамет "public_network" который позволяет бридж интерфесом основной машины. При запуске нужно указать сетевой интерфес с которым будет мост. 
 	   Так же в этой папке представлен файл с выводом и самим командами которые помогли в решении этой задачи.
 
-	3. Формирование и установка модуля SELinux.
+3. Формирование и установка модуля SELinux.
 
 	   Описание:
 
@@ -43,8 +43,9 @@
       1. Запускаем стенд заходим на client. Пытаемся обновить dns c client получаем "update failed: SERVFAIL". 
       2. Подключаемся к ns01 проверяем работает ли демон named (systemctl status named).
       	 Видим что демон запущен но у него нет доступа к открытию файла:
-      	 ```
-      	 ● named.service - Berkeley Internet Name Domain (DNS)
+   <code>
+      	 [root@ns01 vagrant]# systemctl status named
+● named.service - Berkeley Internet Name Domain (DNS)
    Loaded: loaded (/usr/lib/systemd/system/named.service; enabled; vendor preset: disabled)
    Active: active (running) since Sat 2020-05-02 09:10:34 UTC; 13min ago
   Process: 31310 ExecStop=/bin/sh -c /usr/sbin/rndc stop > /dev/null 2>&1 || /bin/kill -TERM $MAINPID (code=exited, status=0/SUCCESS)
@@ -64,5 +65,6 @@ May 02 09:19:51 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/ke
 May 02 09:22:52 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/key zonetransfer.key: view view1: signer "zonetransfer.key" approved
 May 02 09:22:52 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/key zonetransfer.key: view view1: updating zone 'ddns.lab/IN': addin....168.50.15
 May 02 09:22:52 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/key zonetransfer.key: view view1: updating zone 'ddns.lab/IN': error...d: no more
-Hint: Some lines were ellipsized, use -l to show in full.```
+Hint: Some lines were ellipsized, use -l to show in full.
+      	 </code>
 
