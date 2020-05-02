@@ -25,7 +25,7 @@
 	     4. Формируем модуль (audit2allow -M nginx --debug < /var/log/audit/audit.log)
 	     5. Загружаем модуль (semodule -i nginx.pp)
 	     6. Запускаем nginx и проверяем (http://ip:8089) 
-<<<<<<< HEAD
+
  
 ### Вторая часть задания.
 
@@ -44,7 +44,7 @@
       2. Подключаемся к ns01 проверяем работает ли демон named (systemctl status named).
       	 Видим что демон запущен но у него нет доступа к открытию файла:
       	 ```
-  ● named.service - Berkeley Internet Name Domain (DNS)
+      	 ● named.service - Berkeley Internet Name Domain (DNS)
    Loaded: loaded (/usr/lib/systemd/system/named.service; enabled; vendor preset: disabled)
    Active: active (running) since Sat 2020-05-02 09:10:34 UTC; 13min ago
   Process: 31310 ExecStop=/bin/sh -c /usr/sbin/rndc stop > /dev/null 2>&1 || /bin/kill -TERM $MAINPID (code=exited, status=0/SUCCESS)
@@ -64,7 +64,5 @@ May 02 09:19:51 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/ke
 May 02 09:22:52 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/key zonetransfer.key: view view1: signer "zonetransfer.key" approved
 May 02 09:22:52 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/key zonetransfer.key: view view1: updating zone 'ddns.lab/IN': addin....168.50.15
 May 02 09:22:52 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/key zonetransfer.key: view view1: updating zone 'ddns.lab/IN': error...d: no more
-Hint: Some lines were ellipsized, use -l to show in full.
-      	 ```
-=======
->>>>>>> 58c7dac3887b78a2b089111dad05aa09e6383600
+Hint: Some lines were ellipsized, use -l to show in full.```
+
