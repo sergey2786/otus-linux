@@ -60,7 +60,10 @@
 
           После формируем модуль audit2allow -M name_selinux --debug < /var/log/audit/audit.log и устовливаем его semodule -i name_selinux.pp. Проверяем снова обновление зоны подучает так же "update failed: SERVFAIL"
        
-    4. Дальше будем  смотреть в лог messages на ns01 (Для удобства используем grep "SELinux is preventing" /var/log/ messages). После каждой попытки обновления зоны ошибка отображается в messages так же комодны для решения данное проблемы (ausearch -c 'isc-worker0000' --raw | audit2allow -M my-iscworker0000#012 # semodule -i my-iscworker0000.pp). При помощи этих команд можно сформировать модули с соответствующими разрешения и установить. Запрашиваем обновление dns до тех пор пока, в messages не перестанут появляться ошибки. 
+    4. Дальше будем  смотреть в лог messages на ns01 (Для удобства используем grep "SELinux is preventing" /var/log/ messages). 
+    После каждой попытки обновления зоны ошибка отображается в messages так же комодны для решения данное проблемы (ausearch -c 'isc-worker0000' --raw | audit2allow -M my-iscworker0000#012 # semodule -i my-iscworker0000.pp). 
+    При помощи этих команд можно сформировать модули с соответствующими разрешения и установить. 
+    Запрашиваем обновление dns до тех пор пока, в messages не перестанут появляться ошибки. 
 
     5. Дальше проверем статус systemctl status named:
        
@@ -85,7 +88,7 @@
         May 02 09:37:39 ns01 named[21448]: zone ddns.lab/IN/view1: not loaded due to errors.
  
      6. Удаляем /etc/named/dynamic/named.ddns.lab.view1.jnl, перезапускаем systemctl restart named. Получаем работающий сервис с обновленными зонами DNS:
-      ![dns_named](named.png)
+      ![dns_named](../named.png)
 
 
 
