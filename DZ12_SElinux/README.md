@@ -51,8 +51,6 @@
 
 						You can use audit2allow to generate a loadable module to allow this access.
 
-		
-
 			Was caused by:
 					 Missing type enforcement (TE) allow rule.
 
@@ -87,8 +85,26 @@
         May 02 09:37:39 ns01 named[21448]: zone ddns.lab/IN/view1: journal rollforward failed: no more
         May 02 09:37:39 ns01 named[21448]: zone ddns.lab/IN/view1: not loaded due to errors.
  
-     6. Удаляем /etc/named/dynamic/named.ddns.lab.view1.jnl, перезапускаем systemctl restart named. Получаем работающий сервис с обновленными зонами DNS:
-      ![dns_named](../named.png)
+     6. Удаляем /etc/named/dynamic/named.ddns.lab.view1.jnl, перезапускаем systemctl restart named. 
+     Получаем работающий сервис с обновленными зонами DNS. Скриншот работающего сервиса представлен (named.png).
+
+##### Вывод:
+
+		Причина по котрой  небыло возможности обновить зоны DNS заключается в том, что при каждом обращении с машины client требовались разрешения сервису  usr/sbin/named для обращения к файлам ОС (указаны выше взяты из логов сервиса).Рекомендуется удалить удалить файл с расширением .jnl (или прописать контекст безопасности).
+		Так как прежде чем данные по падают в .jnl файл, они записываются в временные файлы, которые так же нужно удалить(или прописать контекст безопасности) перед обновлением зоны DNS.
+		Временные файлы создаются в папке dynamic (/etc/named/dynamic/).
+
+
+
+##### Другие способы:
+	
+	- Можно совсем выключить selinex (SELINUX=enforcing в /etc/selinux/config). 
+	  Так же можно переключить режим на permissive(semanage permissive -a httpd_t)для определенного домена. Эти способы не рекомендуются.
+
+	- Так же можно изменить контекст безопасности к тем файлам к которым обращается сервис. 
+	  На примере DNS переседлают поменять контекст, так semanage fcontext -a -t FILE_TYPE named.ddns.lab.view1.jnl.
+      Сами перелагаемые контексты можно посмотреть sealert -a /var/log/audit/audit.log так. Так же эта утилита предлагаем возможные решения проблем с selinux.
+      
 
 
 
