@@ -43,8 +43,7 @@
       1. Запускаем стенд заходим на client. Пытаемся обновить dns c client получаем "update failed: SERVFAIL". 
       2. Подключаемся к ns01 проверяем работает ли демон named (systemctl status named).
       	 Видим что демон запущен но у него нет доступа к открытию файла:
-   <code>
-      	 [root@ns01 vagrant]# systemctl status named
+   <code>[root@ns01 vagrant]# systemctl status named
 ● named.service - Berkeley Internet Name Domain (DNS)
    Loaded: loaded (/usr/lib/systemd/system/named.service; enabled; vendor preset: disabled)
    Active: active (running) since Sat 2020-05-02 09:10:34 UTC; 13min ago
@@ -65,6 +64,5 @@ May 02 09:19:51 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/ke
 May 02 09:22:52 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/key zonetransfer.key: view view1: signer "zonetransfer.key" approved
 May 02 09:22:52 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/key zonetransfer.key: view view1: updating zone 'ddns.lab/IN': addin....168.50.15
 May 02 09:22:52 ns01 named[31325]: client @0x7fd1c003c3e0 192.168.50.15#27621/key zonetransfer.key: view view1: updating zone 'ddns.lab/IN': error...d: no more
-Hint: Some lines were ellipsized, use -l to show in full.
-      	 </code>
+Hint: Some lines were ellipsized, use -l to show in full.</code>
 
