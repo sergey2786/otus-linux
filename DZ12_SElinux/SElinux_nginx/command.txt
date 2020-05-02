@@ -1,0 +1,59 @@
+systemctl start nginx.service 
+Job for nginx.service failed because the control process exited with error code. See "systemctl status nginx.service" and "journalctl -xe" for details.
+
+Ищем ошибку:
+
+grep "AVC" /var/log/audit/audit.log
+
+type=AVC msg=audit(1587974138.505:1773): avc:  denied  { name_bind } for  pid=29616 comm="nginx" src=8089 scontext=system_u:system_r:httpd_t:s0 tcontext=system_u:object_r:unreserved_port_t:s0 tclass=tcp_socket permissive=0
+
+
+Анализируем лог:
+sealert -a /var/log/audit/audit.log 
+
+*****  Plugin catchall (1.49 confidence) suggests   **************************
+
+If you believe that nginx should be allowed name_bind access on the port 89 tcp_socket by default.
+Then you should report this as a bug.
+You can generate a local policy module to allow this access.
+Do
+allow this access for now by executing:
+# ausearch -c 'nginx' --raw | audit2allow -M my-nginx
+# semodule -i my-nginx.pp
+
+
+Additional Information:
+Source Context                system_u:system_r:httpd_t:s0
+Target Context                system_u:object_r:reserved_port_t:s0
+Target Objects                port 8089 [ tcp_socket ]
+Source                        nginx
+Source Path                   /usr/sbin/nginx
+Port                          8089
+Host                          <Unknown>
+Source RPM Packages           nginx-1.16.1-1.el7.x86_64
+Target RPM Packages           
+Policy RPM                    selinux-policy-3.13.1-252.el7_7.6.noarch
+Selinux Enabled               True
+Policy Type                   targeted
+Enforcing Mode                Enforcing
+Host Name                     nginx
+Platform                      Linux nginx 3.10.0-1062.18.1.el7.x86_64 #1 SMP Tue
+                              Mar 17 23:49:17 UTC 2020 x86_64 x86_64
+Alert Count                   1
+First Seen                    2020-04-18 10:36:47 UTC
+Last Seen                     2020-04-18 10:36:47 UTC
+Local ID                      265338c0-4cc5-4f20-8899-5c881aa48a86
+
+Raw Audit Messages
+type=AVC msg=audit(1587206207.456:1989): avc:  denied  { name_bind } for  pid=30530 comm="nginx" src=89 scontext=system_u:system_r:httpd_t:s0 tcontext=system_u:object_r:reserved_port_t:s0 tclass=tcp_socket permissive=1
+
+
+type=SYSCALL msg=audit(1587206207.456:1989): arch=x86_64 syscall=bind success=yes exit=0 a0=7 a1=5607ede4aa50 a2=1c a3=7fffc1ad1924 items=0 ppid=1 pid=30530 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=(none) ses=4294967295 comm=nginx exe=/usr/sbin/nginx subj=system_u:system_r:httpd_t:s0 key=(null)
+
+Hash: nginx,httpd_t,reserved_port_t,tcp_socket,name_bind
+
+
+Проверка добавился порт или нет:
+semanage port -l | grep http_port_t
+http_port_t                    tcp      8089, 80, 81, 443, 488, 8008, 8009, 8443, 9000
+pegasus_http_port_t            tcp      5988
