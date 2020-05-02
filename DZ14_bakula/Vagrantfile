@@ -1,0 +1,70 @@
+Vagrant.configure("2") do |config|
+
+config.vm.define "baculaserver" do |baculaserver|
+
+    baculaserver.vm.box = "ubuntu/bionic64"
+
+    baculaserver.vm.network "private_network", ip: "192.168.11.150"
+
+    baculaserver.vm.hostname = "bacula-server"
+
+    baculaserver.vm.provider :virtualbox do |vb|
+
+      vb.customize ["modifyvm", :id, "--memory", "512"]
+
+      vb.customize ["modifyvm", :id, "--cpus", "2"]
+
+      end
+
+    baculaserver.vm.provision "shell", inline: <<-SHELL
+
+       mkdir -p ~root/.ssh; cp ~vagrant/.ssh/auth* ~root/.ssh
+
+       sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+
+       systemctl restart sshd
+
+       timedatectl set-timezone Europe/Samara
+
+       apt update && apt upgrade -y
+
+       apt install bacula-director bacula-storage bacula-console bacula-director-pgsql 
+
+    SHELL
+
+    end
+
+   config.vm.define "baculaclient" do |baculaclient|
+      
+      baculaclient.vm.box = "ubuntu/bionic64"
+
+      baculaclient.vm.network "private_network", ip: "192.168.11.152"
+
+      baculaclient.vm.hostname = "bacula-client"
+
+      baculaclient.vm.provider :virtualbox do |vb|
+
+      vb.customize ["modifyvm", :id, "--memory", "512"]
+
+      vb.customize ["modifyvm", :id, "--cpus", "2"]
+
+      end
+
+      baculaclient.vm.provision "shell", inline: <<-SHELL
+
+       mkdir -p ~root/.ssh; cp ~vagrant/.ssh/auth* ~root/.ssh
+
+       sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+
+       systemctl restart sshd
+
+       timedatectl set-timezone Europe/Samara
+       
+       apt update && apt upgrade -y
+
+       apt install bacula-client
+       
+    SHELL
+
+  end
+end

@@ -1,0 +1,11 @@
+export EASY_RSA="/usr/share/easy-rsa/" #Путь к easy-rsa.
+export KEY_CONFIG="/openssl-1.0.0.cnf" #Конфиг OpenSSL
+export KEY_DIR="/etc/openvpn/keys" #Каталог, в котором мы будем держать ключи.
+export KEY_SIZE=2048 # Размер ключа
+export CA_EXPIRE=3650 # Срок действия CA
+export KEY_EXPIRE=3650 # Срок действия ключа
+export KEY_COUNTRY="RU" # Двухбуквенный код страны
+export KEY_PROVINCE="XX" # Province, не актуально
+export KEY_CITY="Town" # Город
+export KEY_ORG="Scat Ltd" # Компания
+export KEY_EMAIL="test@test.su" # Email
