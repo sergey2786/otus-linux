@@ -2,7 +2,7 @@
 - hosts: all # part running on all hosts
   become: true
   tasks:
-  - name: install packages # переведём синтаксис yum из deprecated 
+  - name: install packages # переведём синтаксис yum из deprecated
     yum:
       name: "{{ packages }}"
       state: present
@@ -104,6 +104,10 @@
       state: restarted
       enabled: yes
 
+  - name: selinux dynamic
+    command: semanage fcontext -a -t named_cache_t '/etc/named/dynamic/'
+    command: restorecon -R -v /etc/named/dynamic/
+
 - hosts: client # first client provision
   become: true
   tasks:
@@ -138,5 +142,3 @@
       owner: root
       group: named
       mode: 0644
-
-
