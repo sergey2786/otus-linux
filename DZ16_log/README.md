@@ -68,6 +68,13 @@
     <hr><img src="../syslog_kibana.png" width="800px"</img><hr/>
 </div>
 
+###### Сам стенд представлен в папке elk 
+###### При работе использовал официальную документацию:
+   [Elastic Stack and Product Documentation](https://www.elastic.co/guide/index.html)
+
+###### За основу стенда был взять репозиторий:
+   [Deploy Elastic Stack on Vagrant](https://github.com/rdrgporto/elk-vagrant)
+
 
 
 
