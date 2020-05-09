@@ -60,9 +60,13 @@
            После запуска выведет лог работы filebeat. Вывод вод команды представлен в файле filebeat.txt.
 
    Скориншоты панели Kibana: 
-   
-
-     ![Screenshot](kibana.png)
+    
+<div align="center">
+    <hr><img src="../kibana.png" width="800px"</img><hr/>
+    <hr><img src="../auditd.png" width="800px"</img><hr/>
+    <hr><img src="../nginx_kibana.png" width="800px"</img><hr/>
+    <hr><img src="../syslog_kibana.png" width="800px"</img><hr/>
+</div>
 
 
 
