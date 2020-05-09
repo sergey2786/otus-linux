@@ -62,7 +62,7 @@
    Скориншоты панели Kibana: 
    
 
-     ![Screenshot](../master/DZ16_log/kibana.png)
+     ![Screenshot](kibana.png)
 
 
 
