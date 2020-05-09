@@ -62,10 +62,10 @@
    Скориншоты панели Kibana: 
     
 <div align="center">
-    <hr><img src="../kibana.png" width="800px"</img><hr/>
-    <hr><img src="../auditd.png" width="800px"</img><hr/>
-    <hr><img src="../nginx_kibana.png" width="800px"</img><hr/>
-    <hr><img src="../syslog_kibana.png" width="800px"</img><hr/>
+    <hr><img src="kibana.png" width="800px"</img><hr/>
+    <hr><img src="auditd.png" width="800px"</img><hr/>
+    <hr><img src="nginx_kibana.png" width="800px"</img><hr/>
+    <hr><img src="syslog_kibana.png" width="800px"</img><hr/>
 </div>
 
 ###### Сам стенд представлен в папке elk 
