@@ -1,0 +1,12 @@
+- type: log
+  name: nginx_access
+  paths:
+    - /var/log/nginx/access.log
+  scan_frequency: 10s
+
+- type: log
+  name: nginx_error
+  paths:
+    - /var/log/nginx/error.log
+  scan_frequency: 5s
+
