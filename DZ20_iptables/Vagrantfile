@@ -1,0 +1,158 @@
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+
+MACHINES = {
+   :inetRouter => {
+        :box_name => "centos/7",
+        #:public => {:ip => '10.10.10.1', :adapter => 1},
+        :net => [
+                   {ip: '192.168.255.1', adapter: 2, netmask: "255.255.255.240", virtualbox__intnet: "router"},
+                ]
+  },
+  
+  :inetRouter2 => {
+        :box_name => "centos/7",
+        :net => [
+                   {ip: '192.168.255.2', adapter: 2, netmask: "255.255.255.240", virtualbox__intnet: "router"},
+                   
+                ]
+  },
+  
+  :centralRouter => {
+        :box_name => "centos/7",
+        :net => [
+                   {ip: '192.168.255.3', adapter: 2, netmask: "255.255.255.240", virtualbox__intnet: "router"},
+                   {ip: '192.168.2.1', adapter: 3, netmask: "255.255.255.240", virtualbox__intnet: "central"},
+                ]
+  },
+  
+  :centralServer => {
+       :box_name => "centos/7",
+       :net => [
+                   {ip: '192.168.2.2', adapter: 2, netmask: "255.255.255.240", virtualbox__intnet: "central"}
+               ]
+  },
+
+}
+Vagrant.configure("2") do |config|
+
+  MACHINES.each do |boxname, boxconfig|
+
+    config.vm.define boxname do |box|
+
+        box.vm.box = boxconfig[:box_name]
+        box.vm.host_name = boxname.to_s
+
+        boxconfig[:net].each do |ipconf|
+          box.vm.network "private_network", ipconf
+        end
+        
+        if boxconfig.key?(:public)
+          box.vm.network "public_network", boxconfig[:public]
+        end
+
+        box.vm.provision "shell", inline: <<-SHELL
+          mkdir -p ~root/.ssh
+                cp ~vagrant/.ssh/auth* ~root/.ssh
+        SHELL
+        
+        case boxname.to_s
+        when "inetRouter"
+          box.vm.synced_folder "files", "/home/vagrant/files"
+          box.vm.provision "shell", run: "always", inline: <<-SHELL
+            echo "net.ipv4.conf.all.forwarding=1" >> /etc/sysctl.conf
+            sysctl -p /etc/sysctl.conf
+            
+            # Скачиваем и устанавливаем knockd и iptables
+            yum -y update && rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && yum -y install epel-release && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+            yum -y install vim knock-server iptables-services
+            
+            #Копируем конфигурационные файлы
+            cd /home/vagrant/files && cp knockd.conf /etc/ && cp knockd /etc/sysconfig/knock
+            
+            # Чистим таблицы правил
+            iptables -F
+            iptables -X
+            iptables -t nat -F
+            iptables -t nat -X
+            iptables -t mangle -F
+            iptables -t mangle -X
+            iptables -P INPUT ACCEPT
+            iptables -P FORWARD ACCEPT
+            iptables -P OUTPUT ACCEPT
+            
+            # Добвляем правила iptables
+            iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+            iptables -A INPUT -p tcp --dport 22 -j REJECT
+            
+            #Добвляем маршрут
+            echo "192.168.0.0/16 via 192.168.255.2 dev eth1" > /etc/sysconfig/network-scripts/route-eth1 && systemctl restart network
+            
+            # Перзапускаем сервисы
+            service iptables save && systemctl enable iptables && systemctl start iptables && systemctl enable knockd && service knockd start
+            
+            #Даем доступ по ssh пользователю root
+            echo "root:root" | chpasswd 
+            sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config 
+            systemctl restart sshd
+            SHELL
+
+        when "centralRouter"
+          box.vm.synced_folder "files", "/home/vagrant/files"
+          box.vm.provision "shell", run: "always", inline: <<-SHELL
+            yum -y install nmap
+            echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0 
+            echo "GATEWAY=192.168.2.1" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+            systemctl restart network
+            SHELL
+        when "centralServer"
+          box.vm.provision "shell", run: "always", inline: <<-SHELL
+            sudo yum install -y epel-release && yum -y install nginx && systemctl start nginx && systemctl enable nginx
+            echo "net.ipv4.conf.all.forwarding=1" >> /etc/sysctl.conf && sysctl -p
+            echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+            echo "GATEWAY=192.168.255.1" >> /etc/sysconfig/network-scripts/ifcfg-eth1 && systemctl restart network
+            reboot
+            SHELL
+        when "inetRouter2"
+          box.vm.network "forwarded_port", guest: 8080, host: 1111, host_ip: "localhost"
+          box.vm.provision "shell", run: "always", inline: <<-SHELL
+            echo "net.ipv4.conf.all.forwarding=1" >> /etc/sysctl.conf && sysctl -p
+            echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+            echo "GATEWAY=192.168.255.1" >> /etc/sysconfig/network-scripts/ifcfg-eth1 && systemctl restart network
+            
+            # Ставим iptables
+            yum install -y iptables-services; sudo systemctl enable iptables && sudo systemctl start iptables
+            
+            # Чистим таблицы правил
+            iptables -F
+            iptables -X
+            iptables -t nat -F
+            iptables -t nat -X
+            iptables -t mangle -F
+            iptables -t mangle -X
+            iptables -P INPUT ACCEPT
+            iptables -P FORWARD ACCEPT
+            iptables -P OUTPUT ACCEPT
+            
+            #Добвляем правила 
+            sudo iptables -t nat -A PREROUTING -i eth0 -p tcp -m tcp --dport 8080 -j DNAT --to-destination 192.168.2.2:80
+            sudo iptables -t nat -A POSTROUTING --destination 192.168.2.2/32 -j SNAT --to-source 192.168.255.2
+            service iptables save
+            
+            echo "net.ipv4.conf.all.forwarding=1" >> /etc/sysctl.conf && sysctl -p
+            echo "DEFROUTE=no" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+            echo "GATEWAY=192.168.255.1" >> /etc/sysconfig/network-scripts/ifcfg-eth1 && systemctl restart network
+            
+            SHELL
+       
+        end
+
+      end
+
+  end
+  
+  
+end
+
