@@ -1,0 +1,10 @@
+[ipaserver]
+test.server.domain
+
+[ipaclient]
+client.server.domain
+
+[ipaclients:vars]
+ipaclient_domain=test.domain
+ipaadmin_principal=admin
+ipaadmin_password=password1234

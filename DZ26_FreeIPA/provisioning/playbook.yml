@@ -1,0 +1,41 @@
+---
+- name: Install FreeIPA Server
+  hosts: server.test.domain
+  vars_files:
+    - group_vars/ipaserver/vars.yml
+  become: yes
+  pre_tasks:
+   - file: path=/etc/hosts state=absent
+   - file: path=/etc/hosts state=touch
+   - yum: 
+      name=firewalld 
+      state=present
+   - systemd: name=firewalld state=started enabled=yes
+   - name: upgrade all packages
+     yum:
+       name: '*' 
+       state: latest
+
+   - name: Set SELinux in permissive mode
+     selinux:
+       policy: targeted
+       state: permissive
+  
+  roles:
+    - role: ipaserver
+      state: present
+
+#  post_tasks:
+    #- name: Add test
+    #  ipa_user:
+    #    name: test
+    #   state: present
+    #    givenname: test
+    #    sn: test
+    #    #sshpubkey:
+    #    password: qwe!23asd
+    #    krbpasswordexpiration:  20220121182022
+    #    ipa_host: server.test.domain
+    #    ipa_user: admin
+    #    ipa_pass: qwe!23asd
+

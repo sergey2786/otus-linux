@@ -1,0 +1,13 @@
+---
+ipaclient_allow_repair: yes
+ipaclient_domain: test.domain
+ipaclient_realm: TEST.DOMAIN
+ipaclient_extraargs: [ '--kinit-attempts=3', '--mkhomedir']
+ipaadmin_principal: admin
+ipaadmin_password: qwe!23asd
+ipaclient_mkhomedir: yes
+ipaservers: server.test.domain
+ansible_port: 2200
+ansible_user: vagrant
+ansible_ssh_user: vagrant
+ansible_ssh_private_key_file: .vagrant/machines/client.test.domain/virtualbox/private_key

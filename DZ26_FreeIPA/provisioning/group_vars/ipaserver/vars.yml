@@ -1,0 +1,16 @@
+---
+ipaadmin_password: password1234
+ipadm_password: password1234
+ipaserver_domain: test.domain
+ipaserver_realm: TEST.DOMAIN
+ipaserver_install_packages: true
+#ipaserver_setup_firewalld: false
+ipaserver_setup_dns: true
+ipaserver_forwarders: 8.8.8.8
+ipaserver_no_ui_redirect: true
+
+ansible_connection: ssh
+ansible_port: 2222
+ansible_user: vagrant
+ansible_ssh_user: vagrant
+ansible_ssh_private_key_file: .vagrant/machines/server.test.domain/virtualbox/private_key

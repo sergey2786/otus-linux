@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.network "public_network", :bridge => "eth1"
+  config.vm.box = "centos/7"
+
+ config.vm.provider "virtualbox" do |v|
+	  v.cpus=2
+	  v.memory = 2048
+  end
+
+  config.vm.define "server.test.domain" do |server|
+      server.vm.network "private_network", ip: "192.168.50.10", virtualbox__intnet: "dns"
+      server.vm.hostname = "server.test.domain"
+  end
+  config.vm.define "client.test.domain" do |client|
+      client.vm.network "private_network", ip: "192.168.50.11", virtualbox__intnet: "dns"
+      client.vm.hostname = "client.test.domain"
+ end
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "provisioning/playbook.yml"
+ end
+
+end
